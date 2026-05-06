@@ -2,13 +2,26 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\LeadController;
+use App\Http\Controllers\AnalyticsController;
 use Illuminate\Support\Facades\Route;
 
 use App\Models\Package;
-
 use App\Models\Article;
 
 Route::get('/gallery', [\App\Http\Controllers\GalleryController::class, 'index'])->name('gallery.index');
+
+// Lead Generation Routes
+Route::post('/api/lead/capture', [LeadController::class, 'capture'])->name('lead.capture');
+Route::post('/api/newsletter/subscribe', [LeadController::class, 'subscribeNewsletter'])->name('newsletter.subscribe');
+Route::post('/api/track/whatsapp', [LeadController::class, 'trackWhatsappClick'])->name('track.whatsapp');
+Route::post('/api/track/phone', [LeadController::class, 'trackPhoneClick'])->name('track.phone');
+Route::post('/api/download/resource', [LeadController::class, 'downloadLeadMagnet'])->name('download.lead.magnet');
+
+// Analytics & Conversion Tracking
+Route::post('/api/track/event', [AnalyticsController::class, 'trackEvent'])->name('analytics.track');
+Route::get('/api/analytics/funnel', [AnalyticsController::class, 'funnel'])->name('analytics.funnel');
+
 Route::get('/', function () {
     $featuredPackages = Package::where('is_featured', true)
         ->where('status', 'published')

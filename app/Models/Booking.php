@@ -17,6 +17,7 @@ class Booking extends Model
 
     protected $casts = [
         'booking_date' => 'date',
+        'departure_date' => 'date',
         'base_price' => 'decimal:2',
         'total_price' => 'decimal:2',
     ];
@@ -39,5 +40,10 @@ class Booking extends Model
     public function payment(): HasOne
     {
         return $this->hasOne(Payment::class);
+    }
+
+    public function lead(): BelongsTo
+    {
+        return $this->belongsTo(Lead::class);
     }
 }
